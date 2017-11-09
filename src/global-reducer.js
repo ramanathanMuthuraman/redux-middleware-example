@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
 
 import appReducer from './containers/App/reducer';
 
@@ -12,8 +11,7 @@ const containersReducer = {
 
 const createGlobalReducer = () => (
   combineReducers({
-    ...containersReducer,
-    route: routerReducer,
+    ...containersReducer
   })
 );
 

@@ -13,7 +13,6 @@ import {
 */
 const fetchData = (url, options) => {
   const fetchRequest = new Request(url, options);
-
   return fetch(fetchRequest)
     .then((response) => (
       response.json().then((result) => ({ result }))
@@ -21,18 +20,17 @@ const fetchData = (url, options) => {
     .catch((error) => ({ error }));
 };
 
-function* getApiData() {
-  const { result, error } = yield call(fetchData, '/get', { method: 'get' });
+const baseRoute =  'http://localhost:3456';
 
+function* getApiData({data}) {
+  const { result, error } = yield call(fetchData, `${baseRoute}/api/${data}`, { method: 'get' });
   if (error) {
     yield put(getAPIDataError(error));
   }
-
-  yield put(getAPIDataLoaded(result));
+  yield put(getAPIDataLoaded(result.response));
 }
 
-function* apiData() {
+export function* apiData() {
   yield takeLatest(GET_API_DATA, getApiData);
 }
 
-export default apiData;

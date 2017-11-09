@@ -4,8 +4,9 @@ import {
   GET_API_DATA_ERROR,
 } from './constants';
 
-export const getAPIData = () => ({
+export const getAPIData = (params) => ({
   type: GET_API_DATA,
+  data: params.data
 });
 
 export const getAPIDataLoaded = (data) => ({
