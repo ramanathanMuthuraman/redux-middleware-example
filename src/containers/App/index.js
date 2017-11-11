@@ -7,10 +7,6 @@ import {selectApiData} from './selectors';
 
 import logo from './images/logo.svg';
 
-import {
-  GET_API_DATA,
-} from './constants';
-
 class App extends Component {
 
   constructor(props) {
@@ -18,6 +14,10 @@ class App extends Component {
     this.state = {
       counter: 0
     }
+    this.buttonStyle = {
+      border: 0,
+      padding: '10px'
+    };
   }
 
   render() {
@@ -27,18 +27,18 @@ class App extends Component {
           <img src={logo} className="app-logo" alt="logo"/>
           <h2>Redux middleware example</h2>
         </div>
-        <h4>Redux Saga</h4>
+        <h4>Redux Thunk and Redux Saga</h4>
+        <em> Change the IS_SAGA_MIDDLEWARE variable to either use saga(default) or thunk middleware </em>
         <p className="app-intro">
-          <button onClick={() => {
+          <button style={this.buttonStyle} onClick={() => {
             const counter = this.state.counter + 1;
             this.setState({
               counter
             });
             this.props.getAPIData({
-              type: GET_API_DATA,
-              data: counter
+              params: counter
             });
-          }}>Click
+          }}>Fetch Data
           </button>
         </p>
         {this.props.apiData && <h4>No. of hits {this.props.apiData}</h4>}

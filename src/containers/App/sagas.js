@@ -1,26 +1,15 @@
-import { takeLatest, takeEvery, call, put, select } from 'redux-saga/effects';
-
+import { takeLatest, call, put, select } from 'redux-saga/effects';
+import fetchData from './utils';
 import { getAPIDataLoaded, getAPIDataError } from './actions';
 
 import {
   GET_API_DATA,
 } from './constants';
 
-const fetchData = (url, options) => {
-  const fetchRequest = new Request(url, options);
-  return fetch(fetchRequest)
-    .then((response) => (
-      response.json().then((result) => ({ result }))
-    ))
-    .catch((error) => ({ error }));
-};
-
-const baseRoute =  'http://localhost:3456';
-
-function* getApiData({data}) {
+function* getApiData({params}) {
   let state = yield select();
   console.log(state);
-  const { result, error } = yield call(fetchData, `${baseRoute}/api/${data}`, { method: 'get' });
+  const { result, error } = yield call(fetchData, params);
   if (error) {
     yield put(getAPIDataError(error));
   }

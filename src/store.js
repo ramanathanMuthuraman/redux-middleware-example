@@ -1,14 +1,13 @@
 import {createStore, applyMiddleware, compose} from 'redux';
 import createSagaMiddleware from 'redux-saga';
+import thunkMiddleware from 'redux-thunk';
 
 import createGlobalReducer from './global-reducer';
 import rootSaga from './global-sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 
-const middlewares = [
-  sagaMiddleware,
-];
+const middlewares = window.IS_SAGA_MIDDLEWARE ? [sagaMiddleware] : [thunkMiddleware];
 
 const store = createStore(
   createGlobalReducer(),
@@ -18,6 +17,6 @@ const store = createStore(
   )
 );
 
-sagaMiddleware.run(rootSaga);
+window.IS_SAGA_MIDDLEWARE && sagaMiddleware.run(rootSaga);
 
 export default store;

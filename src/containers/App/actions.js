@@ -4,17 +4,40 @@ import {
   GET_API_DATA_ERROR,
 } from './constants';
 
-export const getAPIData = (params) => ({
-  type: GET_API_DATA,
-  data: params.data
-});
+import fetchData from './utils';
 
-export const getAPIDataLoaded = (data) => ({
+window.IS_SAGA_MIDDLEWARE = true;
+
+let getAPIData;
+
+const getAPIDataLoaded = (data) => ({
   type: GET_API_DATA_LOADED,
   data,
 });
 
-export const getAPIDataError = (error) => ({
+const getAPIDataError = (error) => ({
   type: GET_API_DATA_ERROR,
   error,
 });
+
+if (window.IS_SAGA_MIDDLEWARE) {
+  getAPIData = (options) => ({
+    type: GET_API_DATA,
+    params: options.params
+  });
+} else {
+  getAPIData = (options) => {
+    return (dispatch) => {
+      dispatch({
+        type: GET_API_DATA
+      });
+      fetchData(options.params).then(({result}) => {
+        dispatch(getAPIDataLoaded(result.response));
+      }, ({error}) => {
+        getAPIDataError(error);
+      });
+    }
+  };
+}
+
+export {getAPIData, getAPIDataLoaded, getAPIDataError};
