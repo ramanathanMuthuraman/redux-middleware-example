@@ -6,7 +6,10 @@ server.use(jsonServer.defaults());
 
 server.get('*/api/:id', function (req, res) {
   const id = req.params.id;
-  res.send({"response": id});
+  const delay = id % 2 === 0 ? 3000 : 0;
+  setTimeout(() => {
+    res.send({"response": `${id} with delay of ${delay} ms`});
+  }, delay);
 });
 
 server.listen(PORT, function () {

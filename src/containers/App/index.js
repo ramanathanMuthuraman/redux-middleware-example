@@ -40,19 +40,19 @@ class App extends Component {
             });
           }}>Click
           </button>
-          <h4>{this.props.apiData}</h4>
         </p>
+        {this.props.apiData && <h4>No. of hits {this.props.apiData}</h4>}
       </div>
     );
   }
 }
 
 App.defaultProps = {
-  apiData: {},
+  apiData: '',
 };
 
 App.propTypes = {
-  apiData: PropTypes.object,
+  apiData: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
