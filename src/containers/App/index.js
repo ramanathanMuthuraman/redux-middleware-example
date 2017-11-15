@@ -13,10 +13,11 @@ class App extends Component {
     super(props);
     this.state = {
       counter: 0
-    }
+    };
     this.buttonStyle = {
       border: 0,
-      padding: '10px'
+      padding: '10px',
+      background: '#ccc'
     };
   }
 
